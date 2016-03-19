@@ -17,14 +17,25 @@ namesAndIxesOfVariablesToKeep <- function() {
   ixes
   
 }
+getActivityNamesAndIntegerLabels <- function() {
+  pathToLabelFile <- "./data/UCI HAR Dataset/activity_labels.txt"
+  dat <- read.table(pathToLabelFile)
+  activities <- factor(dat$V1, labels = dat$V2)
+  activities
+}
+activities <- getActivityNamesAndIntegerLabels()
+
 featuresToKeep <- namesAndIxesOfVariablesToKeep()
 
-getMergedDataSet <- function(featuresToKeep) {
+getMergedDataSet <- function(featuresToKeep, activityLabels) {
   
   pathToTestData <- "./data/UCI HAR Dataset/test/X_test.txt"
   testData <- read.table(pathToTestData)
   pathToTrainData <- "./data/UCI HAR Dataset/train/X_train.txt"
   trainData <- read.table(pathToTrainData)
+  
+  # append the column that labels the activity to each of the data sets. 
+  
   
   
   
