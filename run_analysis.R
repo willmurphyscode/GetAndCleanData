@@ -1,3 +1,6 @@
+#packages
+library(dplyr)
+
 # Merge test and training data
         
 
@@ -31,11 +34,19 @@ getMergedDataSet <- function(featuresToKeep, activityLabels) {
   
   pathToTestData <- "./data/UCI HAR Dataset/test/X_test.txt"
   testData <- read.table(pathToTestData)
+  testData <- tbl_df(testData)
+  testData <- select(testData, featuresToKeep)
+  
   pathToTrainData <- "./data/UCI HAR Dataset/train/X_train.txt"
   trainData <- read.table(pathToTrainData)
+  trainData <- tbl_df(trainData)
   
   # append the column that labels the activity to each of the data sets. 
-  
+  pathToTestDataLabels <- "./data/UCI HAR Dataset/test/y_test.txt"
+  testDataLabels <- read.table(pathToTestDataLabels)
+  # single quotes are important, see https://github.com/hadley/dplyr/issues/1554
+  testData <- mutate(testData, ActivityLabels = testDataLabels$'V1')
+  testData
   
   
   
