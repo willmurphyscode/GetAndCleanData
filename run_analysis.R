@@ -37,10 +37,20 @@ getMergedDataSet <- function(featuresToKeep, activityLabels) {
   testData <- tbl_df(testData)
   testData <- select(testData, featuresToKeep)
   
+  
+  pathToSubjectsForTest <- "./data/UCI HAR Dataset/test/subject_test.txt"
+  testSubjects <- read.table(pathToSubjectsForTest)
+  testData <- mutate(testData, Subject = testSubjects$'V1')
+  
   pathToTrainData <- "./data/UCI HAR Dataset/train/X_train.txt"
   trainData <- read.table(pathToTrainData)
   trainData <- tbl_df(trainData)
   trainData <- select(trainData, featuresToKeep)
+  
+  pathToSubjectsForTrain <- "./data/UCI HAR Dataset/train/subject_train.txt"
+  trainSubjects <- read.table(pathToSubjectsForTrain)
+  
+  trainData <- mutate(trainData, Subject = trainSubjects$'V1')
   
   # append the column that labels the activity to each of the data sets. 
   pathToTestDataLabels <- "./data/UCI HAR Dataset/test/y_test.txt"
@@ -53,11 +63,11 @@ getMergedDataSet <- function(featuresToKeep, activityLabels) {
   
   trainData <- mutate(trainData, ActivityLabels = trainDataLabels$'V1')
   
-  
   full <- union(trainData, testData)
   
-  # replace the integer activity labels with proper factor with names. 
-  full <- mutate(full, ActivityLabels = sapply(full$ActivityLabels,  function(x){ activityLabels[x] }))
+  # replace the integer activity labels with proper factor with names, 
+  #and make sure the Subject column is a factor
+  full <- mutate(full, Subject = factor(Subject), ActivityLabels = sapply(full$ActivityLabels,  function(x){ activityLabels[x] }))
   full
   
 }
@@ -68,5 +78,15 @@ getMergedDataSet <- function(featuresToKeep, activityLabels) {
 
 # From the data set in step 4, create a second, independent tiday data set with the average of each variable for each
 # activity and each subject. 
+makeTidySummary <- function(dat) {
+  #toTakeMeanOf <- names(select(dat, -ActivityLabels, -Subject))
+  #dots <- sapply(toTakeMeanOf, function(x){ substitute(mean(x), list(x = as.name(x))) })
+  #summarise(group_by(dat, Subject, ActivityLabels), mean = mean)
+  #do.call(summarise, c(list(.data=dat, dots)))
+  dat %>%
+    group_by(ActivityLabels, Subject) %>%
+    summarise_each(funs(mean))
+  
+}
 
-
+# write the resulting data to a new file. 
