@@ -40,21 +40,33 @@ getMergedDataSet <- function(featuresToKeep, activityLabels) {
   pathToTrainData <- "./data/UCI HAR Dataset/train/X_train.txt"
   trainData <- read.table(pathToTrainData)
   trainData <- tbl_df(trainData)
+  trainData <- select(trainData, featuresToKeep)
   
   # append the column that labels the activity to each of the data sets. 
   pathToTestDataLabels <- "./data/UCI HAR Dataset/test/y_test.txt"
   testDataLabels <- read.table(pathToTestDataLabels)
   # single quotes are important, see https://github.com/hadley/dplyr/issues/1554
   testData <- mutate(testData, ActivityLabels = testDataLabels$'V1')
-  testData
+  
+  pathToTrainDataLabels <- "./data/UCI HAR Dataset/train/y_train.txt"
+  trainDataLabels <- read.table(pathToTrainDataLabels)
+  
+  trainData <- mutate(trainData, ActivityLabels = trainDataLabels$'V1')
   
   
+  full <- union(trainData, testData)
+  
+  # replace the integer activity labels with proper factor with names. 
+  full <- mutate(full, ActivityLabels = sapply(full$ActivityLabels,  function(x){ activityLabels[x] }))
+  full
   
 }
 
 # Uses descriptive activity names to name the activities in the data set. 
 
-# Appropriately lables the data set with descriptive variable names. 
+# Appropriately labels the data set with descriptive variable names. 
 
 # From the data set in step 4, create a second, independent tiday data set with the average of each variable for each
 # activity and each subject. 
+
+
