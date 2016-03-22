@@ -89,4 +89,10 @@ makeTidySummary <- function(dat) {
   
 }
 
+res <- makeTidySummary(getMergedDataSet(featuresToKeep, activities))
 # write the resulting data to a new file. 
+if(!file.exists("./results")) {
+  dir.create("./results")
+}
+resultPath = "./results/Tidy.csv"
+write.csv(res, resultPath)
