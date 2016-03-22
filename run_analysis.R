@@ -13,7 +13,7 @@ namesAndIxesOfVariablesToKeep <- function() {
   dat <- read.table(relativePathToFeaturesFile)
   
   # grep for columns containing 'mean' or std
-  ixes <- grep("mean|std", dat$V2, ignore.case = TRUE)
+  ixes <- grep("-(mean|std)", dat$V2, ignore.case = TRUE)
   #return a vector of the indices of these columns, whose 
   #names are the names of these columns. 
   names(ixes) <- dat$V2[ixes]
