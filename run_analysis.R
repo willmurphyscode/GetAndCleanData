@@ -95,4 +95,4 @@ if(!file.exists("./results")) {
   dir.create("./results")
 }
 resultPath = "./results/Tidy.csv"
-write.csv(res, resultPath)
+write.csv(res, resultPath, row.names = FALSE)
