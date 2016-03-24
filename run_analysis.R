@@ -73,12 +73,31 @@ getMergedDataSet <- function(featuresToKeep, activityLabels) {
 }
 
 # Uses descriptive activity names to name the activities in the data set. 
+makeDescriptiveNames <- function(featuresToKeep) {
+  #grep the features to transform their names in a predictable way. 
+  
+  names(featuresToKeep) <- gsub("^t", "time_", names(featuresToKeep))
+  names(featuresToKeep) <- gsub("^f", "frequency_", names(featuresToKeep))
+  names(featuresToKeep) <- gsub("Acc-", "_acceleration_", names(featuresToKeep))
+  names(featuresToKeep) <- gsub("AccJerk", "_jerk_", names(featuresToKeep))
+  names(featuresToKeep) <- gsub("\\(\\)", "", names(featuresToKeep))
+  names(featuresToKeep) <- gsub("[-_]Mag[-_]", "_magnitude_", names(featuresToKeep))
+  
+  names(featuresToKeep) <- gsub("_-", "_", names(featuresToKeep))
+  names(featuresToKeep) <- gsub("-", "_", names(featuresToKeep))
+  
+  #replace turn camelCase to camel_case
+  names(featuresToKeep) <- gsub("([a-z])([A-Z])", "\\1_\\2", names(featuresToKeep))
+  names(featuresToKeep) <- tolower(names(featuresToKeep))
+  
+  featuresToKeep
+}
 
 # Appropriately labels the data set with descriptive variable names. 
 
 # From the data set in step 4, create a second, independent tiday data set with the average of each variable for each
 # activity and each subject. 
-makeTidySummary <- function(dat) {
+makeTidySummary <- function(dat, featuresToKeep) {
   #toTakeMeanOf <- names(select(dat, -ActivityLabels, -Subject))
   #dots <- sapply(toTakeMeanOf, function(x){ substitute(mean(x), list(x = as.name(x))) })
   #summarise(group_by(dat, Subject, ActivityLabels), mean = mean)
@@ -87,9 +106,14 @@ makeTidySummary <- function(dat) {
     group_by(ActivityLabels, Subject) %>%
     summarise_each(funs(mean))
   
+  names(dat) <- names(makeDescriptiveNames(featuresToKeep))
+  
+  dat
+  
 }
 
-res <- makeTidySummary(getMergedDataSet(featuresToKeep, activities))
+res <- makeTidySummary(getMergedDataSet(featuresToKeep, activities), featuresToKeep)
+
 # write the resulting data to a new file. 
 if(!file.exists("./results")) {
   dir.create("./results")
