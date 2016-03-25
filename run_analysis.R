@@ -102,14 +102,16 @@ makeTidySummary <- function(dat, featuresToKeep) {
   #dots <- sapply(toTakeMeanOf, function(x){ substitute(mean(x), list(x = as.name(x))) })
   #summarise(group_by(dat, Subject, ActivityLabels), mean = mean)
   #do.call(summarise, c(list(.data=dat, dots)))
-  dat %>%
+  dat <- dat %>%
     group_by(ActivityLabels, Subject) %>%
     summarise_each(funs(mean))
   
-  names(dat) <- names(makeDescriptiveNames(featuresToKeep))
+  newNames <- names(makeDescriptiveNames(featuresToKeep))
+  newNames <- c(newNames, "Participant", "Activity")
+  
+  names(dat) <- newNames
   
   dat
-  
 }
 
 res <- makeTidySummary(getMergedDataSet(featuresToKeep, activities), featuresToKeep)
