@@ -107,7 +107,7 @@ makeTidySummary <- function(dat, featuresToKeep) {
     summarise_each(funs(mean))
   
   newNames <- names(makeDescriptiveNames(featuresToKeep))
-  newNames <- c(newNames, "Participant", "Activity")
+  newNames <- c("activity", "participant", newNames)
   
   names(dat) <- newNames
   
