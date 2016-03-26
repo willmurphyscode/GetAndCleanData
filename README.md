@@ -17,7 +17,7 @@ Only features (column in our table) which denoted the mean or standard deviation
 
 After the "train" and "test" data sets processed by extracting only relevant columns, and by adding the "Participant" and "Activity" column, the "test" and "train" data sets were merged. Because the test and train tables were in the same formats, they were joined by simply appending one to the other. 
 
-Then, the information in the combined data set was grouped by activity and participant, and the remaining features were aggregated by calling mean(). The resulting data set is a table with 81 columns, the first two showing the "Activity" as a character string, and the second showing the participant, numbered 1 through 25. The remaining 79 columns are the average, by activity and participant, of the corresponding features in the original data. 
+Then, the information in the combined data set was grouped by activity and participant, and the remaining features were aggregated by calling mean(). The resulting data set is a table with 81 columns, the first two showing the "Activity" as a character string, and the second showing the participant, numbered 1 through 25. The remaining 79 columns are the mean, by activity and participant, of the corresponding features in the original data. 
 
 After the datasets were merged and labeled, the columns were renamed with the following scheme:
 - the abbreviation 'Acc' for 'Acceleration' was expanded to the whole word. 
