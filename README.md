@@ -11,7 +11,7 @@ In the downloaded and extracted file, there were two subfolders, "test" and "tra
 
 The original data set contained 561 features. 
  
-In the original "test" and "train" data sets, two pertinent labels were left in separate files: The participants in the study, designated by integers 1-25, and the activities during with the data were collected, which are described in English, such as WALKING UPSTAIRS. I added the activity and participant labels as columns to the main table, rather than leaving them in separate files.
+In the original "test" and "train" data sets, two pertinent labels were left in separate files: The participants in the study, designated by integers 1-30, and the activities during with the data were collected, which are described in English, such as WALKING UPSTAIRS. I added the activity and participant labels as columns to the main table, rather than leaving them in separate files.
 
 Only features (column in our table) which denoted the mean or standard deviation of a measure were of interest. The others were discarded. In the naming scheme of the original data set, these features' names contained the string 'mean()' or 'std()', respectively. From the original list of 561 features, these 79 relevant features were extracted using grep.    
 
