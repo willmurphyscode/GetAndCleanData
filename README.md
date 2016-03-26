@@ -26,3 +26,5 @@ After the datasets were merged and labeled, the columns were renamed with the fo
 - the entire name was rendered lower case. 
 - the prefix 't' which denoted 'time domain features' was replaced with the prefix 'time.'
 - the prefix 'f' which denoted 'frequency domain features' was replaced with the prefix 'frequency'
+
+To replicate the entire process, ensure that the dataset is extracted in the working directory, in a subdirectory called "data", and run the file 'run_analysis.R'
