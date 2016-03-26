@@ -9,7 +9,7 @@ library(dplyr)
 
 namesAndIxesOfVariablesToKeep <- function() {
   # read the file
-  relativePathToFeaturesFile <- "./data./UCI HAR Dataset/features.txt"
+  relativePathToFeaturesFile <- "./data/features.txt"
   dat <- read.table(relativePathToFeaturesFile)
   
   # grep for columns containing 'mean' or std
@@ -21,7 +21,7 @@ namesAndIxesOfVariablesToKeep <- function() {
   
 }
 getActivityNamesAndIntegerLabels <- function() {
-  pathToLabelFile <- "./data/UCI HAR Dataset/activity_labels.txt"
+  pathToLabelFile <- "./data/activity_labels.txt"
   dat <- read.table(pathToLabelFile)
   activities <- factor(dat$V1, labels = dat$V2)
   activities
@@ -32,33 +32,33 @@ featuresToKeep <- namesAndIxesOfVariablesToKeep()
 
 getMergedDataSet <- function(featuresToKeep, activityLabels) {
   
-  pathToTestData <- "./data/UCI HAR Dataset/test/X_test.txt"
+  pathToTestData <- "./data/test/X_test.txt"
   testData <- read.table(pathToTestData)
   testData <- tbl_df(testData)
   testData <- select(testData, featuresToKeep)
   
   
-  pathToSubjectsForTest <- "./data/UCI HAR Dataset/test/subject_test.txt"
+  pathToSubjectsForTest <- "./data/test/subject_test.txt"
   testSubjects <- read.table(pathToSubjectsForTest)
   testData <- mutate(testData, Subject = testSubjects$'V1')
   
-  pathToTrainData <- "./data/UCI HAR Dataset/train/X_train.txt"
+  pathToTrainData <- "./data/train/X_train.txt"
   trainData <- read.table(pathToTrainData)
   trainData <- tbl_df(trainData)
   trainData <- select(trainData, featuresToKeep)
   
-  pathToSubjectsForTrain <- "./data/UCI HAR Dataset/train/subject_train.txt"
+  pathToSubjectsForTrain <- "./data/train/subject_train.txt"
   trainSubjects <- read.table(pathToSubjectsForTrain)
   
   trainData <- mutate(trainData, Subject = trainSubjects$'V1')
   
   # append the column that labels the activity to each of the data sets. 
-  pathToTestDataLabels <- "./data/UCI HAR Dataset/test/y_test.txt"
+  pathToTestDataLabels <- "./data/test/y_test.txt"
   testDataLabels <- read.table(pathToTestDataLabels)
   # single quotes are important, see https://github.com/hadley/dplyr/issues/1554
   testData <- mutate(testData, ActivityLabels = testDataLabels$'V1')
   
-  pathToTrainDataLabels <- "./data/UCI HAR Dataset/train/y_train.txt"
+  pathToTrainDataLabels <- "./data/train/y_train.txt"
   trainDataLabels <- read.table(pathToTrainDataLabels)
   
   trainData <- mutate(trainData, ActivityLabels = trainDataLabels$'V1')
@@ -120,5 +120,5 @@ res <- makeTidySummary(getMergedDataSet(featuresToKeep, activities), featuresToK
 if(!file.exists("./results")) {
   dir.create("./results")
 }
-resultPath = "./results/Tidy.csv"
-write.csv(res, resultPath, row.names = FALSE)
+resultPath = "./results/results.txt"
+write.table(res, resultPath, row.names = FALSE)
