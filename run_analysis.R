@@ -81,13 +81,15 @@ makeDescriptiveNames <- function(featuresToKeep) {
   names(featuresToKeep) <- gsub("Acc-", "_acceleration_", names(featuresToKeep))
   names(featuresToKeep) <- gsub("AccJerk", "_jerk_", names(featuresToKeep))
   names(featuresToKeep) <- gsub("\\(\\)", "", names(featuresToKeep))
-  names(featuresToKeep) <- gsub("[-_]Mag[-_]", "_magnitude_", names(featuresToKeep))
+  
   
   names(featuresToKeep) <- gsub("_-", "_", names(featuresToKeep))
   names(featuresToKeep) <- gsub("-", "_", names(featuresToKeep))
+ 
   
   #replace turn camelCase to camel_case
   names(featuresToKeep) <- gsub("([a-z])([A-Z])", "\\1_\\2", names(featuresToKeep))
+  names(featuresToKeep) <- gsub("[-_]Mag[-_]", "_magnitude_", names(featuresToKeep))
   names(featuresToKeep) <- tolower(names(featuresToKeep))
   
   featuresToKeep
